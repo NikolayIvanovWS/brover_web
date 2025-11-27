@@ -1,0 +1,10 @@
+<launch>
+   <node pkg="rosbridge_server" exec="rosbridge_websocket" name="rosbridge_server" />
+   <node pkg="web_video_server" exec="web_video_server" name="web_video_server" respawn="true" respawn_delay="5">
+        <param name="port" value="9999"/>
+        <param name="default_stream_type" value="ros_compressed"/>
+        <param name="default_transport" value="compressed" />
+        <param name="publish_rate" value="1.0"/>
+    </node>
+    <node pkg="brover_web" exec="web_server" name="web_server"/>
+</launch>
