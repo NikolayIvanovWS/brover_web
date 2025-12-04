@@ -2,12 +2,18 @@ import rclpy
 import os, signal, time
 from rclpy.node import Node
 from flask import Flask, send_from_directory, send_file, request, jsonify, render_template
+from ament_index_python.packages import get_package_share_directory
 
 ROS_DOMAIN_ID :int = int(os.environ.get('ROS_DOMAIN_ID',0))
 rclpy.init(domain_id = ROS_DOMAIN_ID)
 
-www_path = "../resource/web"
-app = Flask(__name__, static_folder=www_path + '/static', template_folder=www_path)
+package_name = 'brover_web'
+share_dir = get_package_share_directory(package_name)
+www_path = os.path.join(share_dir, 'resource', 'web')
+
+app = Flask(__name__, 
+            static_folder=os.path.join(www_path, 'static'), 
+            template_folder=www_path)
 
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
